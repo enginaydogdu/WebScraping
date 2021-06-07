@@ -1,7 +1,5 @@
-﻿using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
 using WebScraping.Entity;
@@ -10,14 +8,18 @@ namespace WebScraping
 {
     public class ScrapingService: IScrapingService
     {
-        public HtmlDocument LoadDocument(string url)
+        private readonly IHelperService _helperService;
+        public ScrapingService(IHelperService helperService)
         {
-            var web = new HtmlWeb();
-            return web.Load(url);
+            _helperService = helperService;
         }
+        
 
-        public string Execute(HtmlDocument doc)
+        public void Execute()
         {
+            var url = _helperService.ReadSettings("Settings:Url");
+            var doc = _helperService.LoadDocument(url);
+
             var rows = doc.DocumentNode.SelectNodes("//*[@id='maxotel_rooms']/tbody/tr").ToList().Where(x => !x.OuterHtml.Contains("extendedRow sold"));
 
             var roomCategories = new List<RoomCategory>();
@@ -29,13 +31,13 @@ namespace WebScraping
                 var adultIndex = row.ChildNodes[1].InnerText.IndexOf("Max adults:");
                 if (adultIndex > 0)
                 {
-                    roomCategory.MaxAdults = Int16.Parse(row.ChildNodes[1].InnerText.Substring(adultIndex + 12, 1));
+                    roomCategory.MaxAdults = Int16.Parse(row.ChildNodes[1].InnerText.Substring(adultIndex + "Max adults: ".Length, 1));
                 }
 
                 var childIndex = row.ChildNodes[1].InnerText.IndexOf("Max children:");
                 if (childIndex > 0)
                 {
-                    roomCategory.MaxChildren = Int16.Parse(row.ChildNodes[1].InnerText.Substring(childIndex + 14, 1));
+                    roomCategory.MaxChildren = Int16.Parse(row.ChildNodes[1].InnerText.Substring(childIndex + "Max children: ".Length, 1));
                 }
 
                 roomCategory.RoomType = row.ChildNodes[3].ChildNodes[3].ChildNodes[1].ChildNodes[1].InnerText.Replace("\n", "");
@@ -57,12 +59,9 @@ namespace WebScraping
             {
                 WriteIndented = true
             };
-            return JsonSerializer.Serialize(hotelInfo, options);
-        }
 
-        public void WriteJsonToFile(string jsonString)
-        {
-            File.WriteAllTextAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Json.txt"), jsonString);
+            var jsonString = JsonSerializer.Serialize(hotelInfo, options);
+            _helperService.WriteJsonToFile(jsonString);
         }
     }
 }

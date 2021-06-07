@@ -71,9 +71,24 @@ namespace WebScraping.Test {
         ///&lt;script type=&quot;text/javascript&quot; nonce=&quot;gnYeEEDxU0gcZHj&quot; src=&quot;https://cdn.cookielaw.org/consent/3ea94870-d4b1-483a-b1d2-faf1d982bb31/OtAutoBlock.js&quot;&gt;&lt;/script&gt;
         ///&lt;script type=&quot;text/javascript&quot; nonce=&quot;gnYeEEDxU0gcZHj&quot; src=&quot;https://cf.bstatic.com/libs/privacy-consent/1.0.1/customer/cookie-banner.min.js&quot; data-domain [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string HtmlFile {
+        internal static string HtmlDocument {
             get {
-                return ResourceManager.GetString("HtmlFile", resourceCulture);
+                return ResourceManager.GetString("HtmlDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;HotelName&quot;: &quot;Hotel Bristol Berlin&quot;,
+        ///  &quot;Address&quot;: &quot;Kurf\u00FCrstendamm 27, Charlottenburg-Wilmersdorf, 10719 Berlin, Germany&quot;,
+        ///  &quot;Classification&quot;: &quot;5 out of 5&quot;,
+        ///  &quot;ReviewPoints&quot;: 8.3,
+        ///  &quot;NumberOfReviews&quot;: 3610,
+        ///  &quot;Description&quot;: &quot; One of our top picks in Berlin.  Hotel Bristol Berlin is a vibrant, legendary hotel located directly on the famous Kurf\u00FCrstendamm boulevard, opening its doors in 1952. The hotel offers complimentary WiFi throughout the premises and there is a nearby underground parki [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string JsonString {
+            get {
+                return ResourceManager.GetString("JsonString", resourceCulture);
             }
         }
     }

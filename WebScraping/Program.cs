@@ -9,14 +9,7 @@ namespace WebScraping
             var _serviceProvider = RegisterServices();
 
             var scrapingService = _serviceProvider.GetService<IScrapingService>();
-            var helperService = _serviceProvider.GetService<IHelperService>();
-
-            var url = helperService.ReadSettings("Settings:Url");
-
-            var doc = scrapingService.LoadDocument(url);
-            
-            var jsonString = scrapingService.Execute(doc);
-            scrapingService.WriteJsonToFile(jsonString);
+            scrapingService.Execute();
         }
 
         private static ServiceProvider RegisterServices()
