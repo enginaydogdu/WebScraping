@@ -1,5 +1,4 @@
 using HtmlAgilityPack;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -11,14 +10,11 @@ namespace WebScraping.Test
     {
         private IScrapingService _scrapingService;
         private IHelperService _helperService;
-        Mock<IScrapingService> scrapingServiceMock;
         HtmlDocument doc = new HtmlDocument();
 
         [SetUp]
         public void Setup()
         {
-            //scrapingServiceMock.Setup(p => p.Execute(It.IsAny<HtmlDocument>())).Returns(Resource1.JsonString);
-            //scrapingServiceMock = new Mock<IScrapingService>();
             _helperService = new HelperService();
             _scrapingService = new ScrapingService(_helperService);
             doc.LoadHtml(Resource1.HtmlDocument);
