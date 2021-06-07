@@ -19,17 +19,18 @@ namespace WebScraping.Test
             _helperService = new HelperService();
             _scrapingService = new ScrapingService();
             doc.LoadHtml(Resource1.HtmlFile);
+
         }
 
         [Test]
-        public void TestHelperService_ReadSettings_ReturnsValue()
+        public void HelperService_ReadSettings_ReturnsValue()
         {
             var url = _helperService.ReadSettings("Settings:Url");
             Assert.IsNotNull(url);
         }
 
         [Test]
-        public void TestScrapingService_Execute_ReturnsJsonFile()
+        public void ScrapingService_Execute_ReturnsJsonFile()
         {
             var jsonString =_scrapingService.Execute(doc);
             Assert.IsNotNull(jsonString);
@@ -42,6 +43,13 @@ namespace WebScraping.Test
             var result = _scrapingService.Execute(doc);
             _scrapingService.WriteJsonToFile(result);
             Assert.IsTrue(File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Json.txt")));
+        }
+
+        [Test]
+        public void ScrapingService_LoadDocument_ReturnsHtmlDoc()
+        {
+            var htmlDoc =_scrapingService.LoadDocument(_helperService.ReadSettings("Settings:Url"));
+            Assert.IsNotNull(htmlDoc);
         }
     }
 }
